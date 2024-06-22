@@ -19,4 +19,4 @@ jobs:
       - name: Synth stack
         run: cd infrastructure && npx cdk synth
       - name: Deploy stack
-        run: npx cdk deploy --all --require-approval never
+        run: cd infrastructure && npx cdk deploy --all --require-approval never
