@@ -3,6 +3,9 @@ name: Build and Upload App
 on:
   push:
     branches: ['main']
+    paths:
+      - .github/workflows/publish-app.yml
+      - toy-robot/**
   pull_request:
     branches: ['main']
 
