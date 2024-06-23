@@ -1,9 +1,9 @@
 import { FormEvent } from 'react';
 import { BOARD_SIZE, Direction, DIRECTIONS } from '../constants';
-import { InitialGameState } from '../types';
+import { GameState } from '../types';
 
 interface FormProps {
-  onSubmit: (gameState: InitialGameState) => void;
+  onSubmit: (gameState: GameState) => void;
 }
 
 export default function Form({ onSubmit }: FormProps) {

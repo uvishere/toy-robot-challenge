@@ -18,7 +18,7 @@ export default function Board({
   });
 
   return (
-    <>
+    <div className="board">
       {Array(BOARD_SIZE)
         .fill(0)
         .map((_, row) => (
@@ -34,7 +34,12 @@ export default function Board({
                 />
               ))}
           </div>
-        ))}
-    </>
+        ))
+        .reverse()}
+      <span className="status">
+        <strong>Current position:</strong> [{position.toString()}]
+        <strong> Direction:</strong> {direction}
+      </span>
+    </div>
   );
 }

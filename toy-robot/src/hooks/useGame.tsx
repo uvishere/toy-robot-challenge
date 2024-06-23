@@ -36,16 +36,16 @@ export default function useGame({
         case 'ArrowUp':
           setDirection(Direction.NORTH);
           setPosition((position) => {
-            if (position[0] === 0) return position;
-            return [position[0] - 1, position[1]];
+            if (position[0] === BOARD_SIZE - 1) return position;
+            return [position[0] + 1, position[1]];
           });
           break;
 
         case 'ArrowDown':
           setDirection(Direction.SOUTH);
           setPosition((position) => {
-            if (position[0] === BOARD_SIZE - 1) return position;
-            return [position[0] + 1, position[1]];
+            if (position[0] === 0) return position;
+            return [position[0] - 1, position[1]];
           });
           break;
         default:

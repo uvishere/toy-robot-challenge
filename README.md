@@ -1,4 +1,4 @@
-# Toy Robot Simulator test
+# Toy Robot Simulator
 ![Infrastructure workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/aws-deploy.yml/badge.svg)
 ![App workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/publish-app.yml/badge.svg)
 
@@ -6,20 +6,21 @@ This is based on the popular toy robot coding test. Read the [link](https://jone
 The UI version of the Robot simulator is a bit modified from original question
 
 ## Accessing the app
-The simulator can be accessed from: https://d3ehh2amh3b8rt.cloudfront.net/
+The simulator can be accessed from: [https://d3ehh2amh3b8rt.cloudfront.net](https://d3ehh2amh3b8rt.cloudfront.net/)
 
 ## Structure
-The app is developed in react using vite and infrastrucutre is provisioned in aws using cdk. To insall and run it locally, here are the steps:
+The app is developed in react using vite and infrastrucutre is provisioned in aws using **aws cdk**. The repository is structured as monorepo. Details to run the app and infra can be found inside individual directories.
 
-### Frontend
-1. clone this repo
-2. Get inside toy-robot folder, `cd toy-robot` 
-3. run `npm install`
-4. run `npm run dev` and follow the url in the `localhost:5173`
+Toy Robot App: [Documentation](toy-robot/README.md)
 
-### Infrastructure
-Make sure you have aws profile set. To do this, install `aws-cli` and run `aws configure` to configure your access
-1. Run `npm install`
-2. To check diffs, `npx cdk diff`
-3. To deploy, `npx cdk deploy --all`
+Infrastructure: [Documentation](infrastructure/README.md)
 
+## CI/CD
+- CI/CD pipelines are defined using GitHub Actions. 
+- The workflow files are located inside `.github/workflows`. 
+- The respective pipelines for Inftrastruce and App will only trigger if changes are made into those directories.
+- Edit those files if you need to add, remove or update the steps.
+
+### Credits
+- To the person who made the 🚶 emoji 
+- To my little son who laughed everytime the guy moved on screen. It made the excerise a real fun for both of us.

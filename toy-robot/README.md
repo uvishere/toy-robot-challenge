@@ -1,31 +1,22 @@
-# React + TypeScript + Vite
-![App workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/publish-app.yml/badge.svg)
+# Toy Robot (human) Simulator
+![Toy Robot App workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/publish-app.yml/badge.svg)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+*PS: I used a human because I couldn't find a proper emoji for a walking robot. Can someone please make one?? 🤖*
 
-Currently, two official plugins are available:
+The app is generated using the Vite template for React. If you wish to learn more, [here's the link](https://vitejs.dev/guide/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to Use
+The application is GUI-based and asks for the initial placement of the robot. Once the initial placement is given, you can move the robot using the keyboard arrow keys. You can see the current position at the bottom of the board.
 
-## Expanding the ESLint configuration
+## For Developers
+### Running Locally
+1. Clone this repo.
+2. Navigate to the toy-robot folder: `cd toy-robot`.
+3. Run `npm install`.
+4. Run `npm run dev` and follow the URL [localhost:5173](http://localhost:5173) or the one given in your command line.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Build and Publish
+The code is hosted on GitHub and the CI/CD pipeline is set up using GitHub Actions. To publish the app:
+1. Push the latest changes.
+2. Go grab a coffee, you deserve it.
+3. Visit: [https://d3ehh2amh3b8rt.cloudfront.net](https://d3ehh2amh3b8rt.cloudfront.net)
