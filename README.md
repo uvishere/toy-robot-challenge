@@ -1,4 +1,7 @@
 # Toy Robot Simulator test
+![Infrastructure workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/aws-deploy.yml/badge.svg)
+![App workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/publish-app.yml/badge.svg)
+
 This is based on the popular toy robot coding test. Read the [link](https://joneaves.wordpress.com/2014/07/21/toy-robot-coding-test/) to know more about it.
 The UI version of the Robot simulator is a bit modified from original question
 

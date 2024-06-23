@@ -1,4 +1,5 @@
 # Welcome to your CDK TypeScript project
+![Infrastructure workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/aws-deploy.yml/badge.svg)
 
 This is a blank project for CDK development with TypeScript.
 

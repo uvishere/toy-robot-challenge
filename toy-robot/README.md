@@ -1,4 +1,5 @@
 # React + TypeScript + Vite
+![App workflow](https://github.com/uvishere/toy-robot-challenge/actions/workflows/publish-app.yml/badge.svg)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
