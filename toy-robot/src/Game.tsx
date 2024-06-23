@@ -1,26 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-const person = "🚶";
+const person = '🚶';
 const BOARD_SIZE = 5;
 const Direction = {
-  NORTH: "NORTH",
-  SOUTH: "SOUTH",
-  EAST: "EAST",
-  WEST: "WEST"
+  NORTH: 'NORTH',
+  SOUTH: 'SOUTH',
+  EAST: 'EAST',
+  WEST: 'WEST',
 };
 
 interface SquareProps {
-    direction: string;
-    showPerson: boolean;
+  boardMatrix: number[];
+  direction: string;
+  showPerson: boolean;
 }
 
 interface BoardProps {
-    direction: string;
-    position: number[];
+  direction: string;
+  position: number[];
 }
 
-function Square({ showPerson, direction }: SquareProps) {
-  return <div className={`${direction} square`}>{showPerson && person}</div>;
+function Square({ boardMatrix, direction, showPerson }: SquareProps) {
+  return (
+    <div className={`square`}>
+      <span>{boardMatrix.toString()}</span>
+      <span className={`${direction} person`}>{showPerson && person}</span>
+    </div>
+  );
 }
 
 function Board({ direction, position }: BoardProps) {
@@ -36,6 +42,7 @@ function Board({ direction, position }: BoardProps) {
                 <Square
                   key={column}
                   direction={direction}
+                  boardMatrix={[row, column]}
                   showPerson={row === position[0] && column === position[1]}
                 />
               ))}
@@ -52,7 +59,7 @@ export default function Game() {
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       switch (event.code) {
-        case "ArrowRight":
+        case 'ArrowRight':
           setDirection(Direction.EAST);
           setPosition((position) => {
             if (position[1] === BOARD_SIZE - 1) return position;
@@ -60,21 +67,21 @@ export default function Game() {
           });
 
           break;
-        case "ArrowLeft":
+        case 'ArrowLeft':
           setDirection(Direction.WEST);
           setPosition((position) => {
             if (position[1] === 0) return position;
             return [position[0], position[1] - 1];
           });
           break;
-        case "ArrowUp":
+        case 'ArrowUp':
           setDirection(Direction.NORTH);
           setPosition((position) => {
             if (position[0] === 0) return position;
             return [position[0] - 1, position[1]];
           });
           break;
-        case "ArrowDown":
+        case 'ArrowDown':
           setDirection(Direction.SOUTH);
           setPosition((position) => {
             if (position[0] === BOARD_SIZE - 1) return position;
@@ -85,14 +92,19 @@ export default function Game() {
       }
     };
 
-    window.addEventListener("keydown", handler, false);
+    window.addEventListener('keydown', handler, false);
 
-    return () => window.removeEventListener("keydown", handler, false);
+    return () => window.removeEventListener('keydown', handler, false);
   }, [setDirection]);
 
   return (
     <>
       <Board direction={direction} position={position} />
+      <div>
+        <span>
+          Current Position: {position[0]},{position[1]},{direction}
+        </span>
+      </div>
     </>
   );
 }

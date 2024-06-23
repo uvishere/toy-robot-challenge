@@ -55,26 +55,39 @@ button:focus-visible {
 }
 
 .square {
+  height: 6em;
+  width: 6em;
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
   margin-right: -1px;
   margin-top: -1px;
-  padding: 0;
+  padding: 5;
   text-align: center;
-  width: 34px;
+  position: relative;
 }
-.square.EAST {
+.person {
+  font-size: 3em;
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  transition: transform 0.2s;
+}
+.person.EAST {
   transform: scaleX(-1);
 }
-.square.NORTH {
+.person.NORTH {
   transform: rotate(90deg);
 }
-.square.SOUTH {
+.person.SOUTH {
   transform: rotate(270deg) scaleY(-1);
 }
 .board-row:after {
