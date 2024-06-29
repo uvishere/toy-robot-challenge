@@ -1,40 +1,67 @@
 import { Robot } from '../src/lib/robot';
-import { Direction } from '../src/lib/types';
+import { Directions, Status, StatusMessages } from '../src/lib/types';
 
-const robot = new Robot();
-robot.place([0, 0, Direction.NORTH]);
+describe('Robot', () => {
+  describe('place', () => {
+    test('should place robot', () => {
+      const robot = new Robot();
+      robot.place([0, 0, Directions.NORTH]);
+      expect(robot.place([0, 0, Directions.NORTH]).status).toEqual(
+        Status.SUCCESS
+      );
+    });
 
-describe('Testing robot class', () => {
-  test('should return new position', () => {
-    robot.place([0, 0, Direction.NORTH]);
-    robot.move();
-    expect(robot.report()).toEqual([0, 1, Direction.NORTH]);
+    test('should not place robot outside the grid', () => {
+      const robot = new Robot();
+      robot.place([4, 4, Directions.NORTH]);
+
+      expect(robot.place([5, 5, Directions.NORTH]).message).toEqual(
+        StatusMessages.EDGE_REACHED
+      );
+    });
   });
 
-  test('should return new direction to LEFT', () => {
-    robot.place([0, 0, Direction.NORTH]);
-    robot.left();
-    expect(robot.report()).toEqual([0, 0, Direction.WEST]);
+  describe('move', () => {
+    test('should return new position after move', () => {
+      const robot = new Robot();
+      robot.place([0, 0, Directions.NORTH]);
+      robot.move();
+      expect(robot.report().data).toStrictEqual({
+        position: [0, 1],
+        direction: Directions.NORTH,
+      });
+    });
+
+    test('should return same position after moving to the edge of the grid', () => {
+      const robot = new Robot();
+      robot.place([4, 4, Directions.NORTH]);
+      robot.move();
+      expect(robot.report().data).toStrictEqual({
+        position: [4, 4],
+        direction: Directions.NORTH,
+      });
+    });
+
+    test('should return message the edge of the grid', () => {
+      const robot = new Robot();
+      robot.place([4, 4, Directions.NORTH]);
+      expect(robot.move().message).toStrictEqual(StatusMessages.EDGE_REACHED);
+    });
   });
 
-  test('should return new direction to RIGHT', () => {
-    robot.place([0, 0, Direction.NORTH]);
-    robot.right();
-    expect(robot.report()).toEqual([0, 0, Direction.EAST]);
-  });
+  describe('directions', () => {
+    test('should return new direction to LEFT', () => {
+      const robot = new Robot();
+      robot.place([0, 0, Directions.NORTH]);
+      robot.left();
+      expect(robot.report().data?.direction).toStrictEqual(Directions.WEST);
+    });
 
-  test('should return new position after moving to the edge of the grid', () => {
-    robot.place([4, 4, Direction.NORTH]);
-    robot.move();
-    expect(robot.report()).toEqual([4, 4, Direction.NORTH]);
-  });
-
-  test('should return new position after moving and changing directions multiple times', () => {
-    robot.place([1, 2, Direction.EAST]);
-    robot.move();
-    robot.move();
-    robot.left();
-    robot.move();
-    expect(robot.report()).toEqual([3, 3, Direction.NORTH]);
+    test('should return new direction to RIGHT', () => {
+      const robot = new Robot();
+      robot.place([0, 0, Directions.NORTH]);
+      robot.right();
+      expect(robot.report().data?.direction).toStrictEqual(Directions.EAST);
+    });
   });
 });

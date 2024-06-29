@@ -1,133 +1,116 @@
-import { BOARD_SIZE, DIRECTION_RING, Direction } from './types';
+import { Direction } from './direction';
+import { Position } from './position';
+import { Directions, Output, Status, StatusMessages } from './types';
 
 export class Robot {
-  private positionX!: number;
-  private positionY!: number;
+  private position!: Position;
   private direction!: Direction;
-
-  /**
-   *
-   * @param position set position of the robot:
-   */
-  private setPosition(position: number[]) {
-    this.positionX = position[0];
-    this.positionY = position[1];
-    console.log('new position', this.positionX, this.positionY);
-  }
-
-  /**
-   *
-   * @param direction set direction of the robot
-   */
-  private setDirection(direction: Direction) {
-    this.direction = direction;
-    console.log('New direction', this.direction);
-  }
 
   /**
    * move: move the robot in the grid
    */
   public move() {
-    switch (this.direction) {
-      case Direction.NORTH:
-        if (this.positionY < BOARD_SIZE - 1) {
-          this.setPosition([this.positionX, ++this.positionY]);
-        } else {
-          console.log('Robot has reached the edge of the grid');
-        }
+    if (!this.position || !this.direction) {
+      return this.response(Status.ERROR, StatusMessages.NOT_PLACED);
+    }
+    let newPosition: Position;
+    switch (this.direction.currentDirection) {
+      case Directions.NORTH:
+        newPosition = new Position(this.position.x, this.position.y + 1);
         break;
 
-      case Direction.SOUTH:
-        if (this.positionY > 0) {
-          this.setPosition([this.positionX, --this.positionY]);
-        } else {
-          console.log('Robot has reached the edge of the grid');
-        }
+      case Directions.EAST:
+        newPosition = new Position(this.position.x + 1, this.position.y);
         break;
 
-      case Direction.EAST:
-        // Use BOARD size
-        if (this.positionX < BOARD_SIZE - 1) {
-          this.setPosition([++this.positionX, this.positionY]);
-        } else {
-          console.log('Robot has reached the edge of the grid');
-        }
+      case Directions.SOUTH:
+        newPosition = new Position(this.position.x, this.position.y - 1);
         break;
 
-      case Direction.WEST:
-        if (this.positionX > 0) {
-          this.setPosition([--this.positionX, this.positionY]);
-        } else {
-          console.log('Robot has reached the edge of the grid');
-        }
+      case Directions.WEST:
+        newPosition = new Position(this.position.x - 1, this.position.y);
         break;
 
       default:
-        break;
+        throw new Error('Invalid direction');
     }
-    console.log('new position', this.positionX, this.positionY, this.direction);
+
+    if (newPosition.isValid()) {
+      this.position = newPosition;
+      return this.response(Status.SUCCESS, StatusMessages.SUCCESS);
+    }
+
+    return this.response(Status.ERROR, StatusMessages.EDGE_REACHED);
   }
 
   /**
    * place: place the robot in the grid
    * @param input: string
    */
-  public place(input: [number, number, Direction]) {
-    const [x, y, direction] = input;
-
-    if (!this.inRange(x, y, BOARD_SIZE)) {
-      console.log('Robot placed at', x, y, direction, 'and can not move');
-      return;
+  public place([x, y, direction]: [number, number, Directions]) {
+    const position = new Position(x, y);
+    if (!position || !direction) {
+      return this.response(Status.ERROR, StatusMessages.NOT_PLACED);
     }
-
-    this.setPosition([x, y]);
-    this.setDirection(direction);
+    if (!position.isValid()) {
+      return this.response(Status.ERROR, StatusMessages.EDGE_REACHED);
+    }
+    this.position = position;
+    this.direction = new Direction(direction);
+    return this.response(Status.SUCCESS, StatusMessages.SUCCESS);
   }
 
   /**
    * report: output the current position of the robot
-   * @returns void
+   * @returns Output
    */
   public report() {
-    return [this.positionX, this.positionY, this.direction];
+    if (!this.position || !this.direction) {
+      return this.response(Status.ERROR, StatusMessages.NOT_PLACED);
+    }
+    return this.response(Status.SUCCESS, StatusMessages.SUCCESS, {
+      position: [this.position.x, this.position.y],
+      direction: this.direction.currentDirection,
+    });
   }
 
   /**
    * left: turn the robot to the left
    */
   public left() {
-    const currentIndex = DIRECTION_RING.indexOf(this.direction);
-    let nextIndex = currentIndex - 1;
-    if (nextIndex < 0) {
-      nextIndex = DIRECTION_RING.length - 1;
-    }
-
-    this.setDirection(DIRECTION_RING[nextIndex]);
+    this.direction.goLeft();
+    return this.response(Status.SUCCESS, StatusMessages.SUCCESS);
   }
   /**
    * right: turn the robot to the right
    */
   public right() {
-    const currentIndex = DIRECTION_RING.indexOf(this.direction);
-    let nextIndex = (currentIndex + 1) % DIRECTION_RING.length;
-    this.setDirection(DIRECTION_RING[nextIndex]);
+    this.direction.goRight();
+    return this.response(Status.SUCCESS, StatusMessages.SUCCESS);
   }
 
   /**
    *
-   * @param x position in x direction
-   * @param y position in y direction
-   * @param BOARD_SIZE size of the board
-   * @returns boolean
+   * @param status status of the operation
+   * @param message message of the operation
+   * @param data data to be returned
+   * @returns Output
    */
-  private inRange(x: number, y: number, BOARD_SIZE: number): boolean {
-    const min = 0;
-    const max = BOARD_SIZE - 1;
-
-    if ((min - x) * (max - x) > max) {
-      return false;
-    } else if ((min - y) * (max - y) > max) {
-      return false;
-    } else return true;
+  private response(
+    status: Status,
+    message: StatusMessages,
+    data?: { position: [number, number]; direction: Directions }
+  ) {
+    if (data) {
+      return {
+        status,
+        message,
+        data,
+      } as Output;
+    }
+    return {
+      status,
+      message,
+    } as Output;
   }
 }

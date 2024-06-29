@@ -1,5 +1,5 @@
 import { Robot } from './robot';
-import { Commands, Direction } from './types';
+import { Commands, Directions, StatusMessages } from './types';
 
 export class Command {
   static run(robot: Robot, input: string) {
@@ -22,7 +22,7 @@ export class Command {
         Command.report(robot);
         break;
       default:
-        console.log('\x1b[35m', 'NOT VALID COMMAND', '\x1b[0m');
+        console.log(StatusMessages.INVALID_COMMAND);
         break;
     }
   }
@@ -33,24 +33,24 @@ export class Command {
       /^(PLACE)\s*(\d)\s*,\s*(\d)\s*,\s*(NORTH|SOUTH|EAST|WEST)$/
     );
     if (!match) {
-      console.log('\x1b[35m', 'INVALID PLACE COMMAND', '\x1b[0m');
+      console.log(StatusMessages.INVALID_COMMAND);
       return;
     }
 
     const [_, command, x, y, direction] = match as [
       string,
       Commands,
-      number,
-      number,
-      Direction
+      string,
+      string,
+      Directions
     ];
 
-    robot.place([x, y, direction]);
-    return [command, x, y, direction];
+    robot.place([parseInt(x), parseInt(y), direction]);
   }
 
   private static move(robot: Robot) {
-    return robot.move();
+    const resp = robot.move();
+    resp?.status === 'error' && console.log(resp.message);
   }
 
   private static left(robot: Robot) {
@@ -62,6 +62,11 @@ export class Command {
   }
 
   private static report(robot: Robot) {
-    return robot.report();
+    const res = robot.report();
+    if (res.data) {
+      console.log('Output:', res.data.position, res.data.direction);
+    } else {
+      console.log(res.message);
+    }
   }
 }

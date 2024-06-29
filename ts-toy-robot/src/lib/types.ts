@@ -7,7 +7,8 @@ export enum Commands {
   PLACE = 'PLACE',
   REPORT = 'REPORT',
 }
-export enum Direction {
+
+export enum Directions {
   NORTH = 'NORTH',
   SOUTH = 'SOUTH',
   EAST = 'EAST',
@@ -15,8 +16,29 @@ export enum Direction {
 }
 
 export const DIRECTION_RING = [
-  Direction.EAST,
-  Direction.SOUTH,
-  Direction.WEST,
-  Direction.NORTH,
+  Directions.EAST,
+  Directions.SOUTH,
+  Directions.WEST,
+  Directions.NORTH,
 ];
+
+export enum StatusMessages {
+  INVALID_COMMAND = 'INVALID COMMAND',
+  SUCCESS = 'Robot is placed successfully',
+  EDGE_REACHED = 'Robot has reached the edge of the grid',
+  NOT_PLACED = 'Robot is not placed yet',
+}
+
+export enum Status {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+export type Output = {
+  status: Status;
+  message: string;
+  data?: {
+    position: [number, number];
+    direction: Directions;
+  };
+};
