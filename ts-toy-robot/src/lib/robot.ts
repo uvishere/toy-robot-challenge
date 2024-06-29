@@ -89,12 +89,7 @@ export class Robot {
    * @returns void
    */
   public report() {
-    console.log(
-      'Output:%s,%s,%s',
-      this.positionX,
-      this.positionY,
-      this.direction
-    );
+    return [this.positionX, this.positionY, this.direction];
   }
 
   /**
