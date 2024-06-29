@@ -7,7 +7,7 @@ export class Robot {
 
   /**
    *
-   * @param position set position of the robot
+   * @param position set position of the robot:
    */
   private setPosition(position: number[]) {
     this.positionX = position[0];
@@ -30,7 +30,7 @@ export class Robot {
   public move() {
     switch (this.direction) {
       case Direction.NORTH:
-        if (this.positionY < 4) {
+        if (this.positionY < BOARD_SIZE - 1) {
           this.setPosition([this.positionX, ++this.positionY]);
         } else {
           console.log('Robot has reached the edge of the grid');
@@ -47,7 +47,7 @@ export class Robot {
 
       case Direction.EAST:
         // Use BOARD size
-        if (this.positionX < 4) {
+        if (this.positionX < BOARD_SIZE - 1) {
           this.setPosition([++this.positionX, this.positionY]);
         } else {
           console.log('Robot has reached the edge of the grid');
